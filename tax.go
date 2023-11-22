@@ -10,6 +10,14 @@ const (
 	TypeSpecial = 2 //专票
 )
 
+// TaxProject 发票项目信息
+type TaxProject struct {
+	Name    string  //项目名称
+	Count   float64 //项目金额
+	Tax     float64 //项目金额
+	TaxRate float64 //税率
+}
+
 // TaxFile 基础结构
 type TaxFile struct {
 	path     string      //文件路径
@@ -25,6 +33,7 @@ type TaxFile struct {
 	TotalTax float64     //总税额
 	Operator string      //开票人
 	Data     string      //开票日期
+	Projects []TaxProject
 }
 
 // NewTaxFile creaet a new TaxFile

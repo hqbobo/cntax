@@ -33,6 +33,7 @@ type TaxFile struct {
 	Operator string      //开票人
 	Data     string      //开票日期
 	Projects 
+}
 
 ```
 

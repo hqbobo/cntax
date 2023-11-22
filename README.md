@@ -49,6 +49,9 @@ import (
 func main() {
 	f, _ := cntax.NewTaxFile("f.ofd")
 	fmt.Printf("%+v", *f)
+	//parse the xml came with ofd
+	fx, e := cntax.NewTaxEInvoice("f.xml")
+	fmt.Printf("%+v", *fx)
 }
 
 

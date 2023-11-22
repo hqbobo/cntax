@@ -2,6 +2,7 @@ package cntax
 
 import (
 	"archive/zip"
+	"bytes"
 	"os"
 )
 
@@ -36,7 +37,38 @@ type TaxFile struct {
 	Projects []TaxProject
 }
 
-// NewTaxFile creaet a new TaxFile
+// NewTaxFileByte creaet a new TaxFile with byte
+func NewTaxFileByte(data []byte) (*TaxFile, error) {
+	var err error
+	f := new(TaxFile)
+	// 创建zip文件读取器
+	f.file, err = zip.NewReader(bytes.NewReader(data), int64(len(data)))
+	if err != nil {
+		return nil, err
+	}
+
+	// 遍历压缩包中的文件
+	for _, file := range f.file.File {
+		if file.Name == TaxTypeBase {
+			if e := f.parseBaseFile(file); e != nil {
+				return nil, e
+			}
+		}
+		if file.Name == TaxContent {
+			if e := f.parseContent(file); e != nil {
+				return nil, e
+			}
+		}
+		if file.Name == TaxTypeFile {
+			if e := f.parseTaxTypeFile(file); e != nil {
+				return nil, e
+			}
+		}
+	}
+	return f, nil
+}
+
+// NewTaxFile creat a new TaxFile
 func NewTaxFile(path string) (*TaxFile, error) {
 	f := new(TaxFile)
 	f.path = path

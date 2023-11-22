@@ -80,3 +80,13 @@ func NewTaxEInvoice(path string) (*EInvoice, error) {
 	}
 	return f, nil
 }
+
+// NewTaxEInvoiceByte creaet a new TaxFile with byte
+func NewTaxEInvoiceByte(data []byte) (*EInvoice, error) {
+	f := new(EInvoice)
+	err := xml.Unmarshal(data, f)
+	if err != nil {
+		return nil, err
+	}
+	return f, nil
+}
